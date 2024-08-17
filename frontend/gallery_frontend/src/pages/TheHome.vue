@@ -1,9 +1,37 @@
 <script>
 import BaseCard from "@/components/ui/BaseCard.vue";
+import TheItem from "@/components/items/TheItems.vue";
 
 export default {
   name: "TheHome",
-  components: {BaseCard}
+  components: {
+    TheItem,
+    BaseCard
+  },
+  computed: {
+    filteredItems() {
+      // 추후 필터링
+      const items = this.$store.getters['items/items'] // [namespace/getterName]
+      console.log(items);
+      return items;
+      }
+  },
+
+  created() {
+    this.loadItems();
+  },
+  methods: {
+    async loadItems(refresh = false) { // refresh의 default 값을 false로 설정
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch('items/loadItems', {forceRefresh: refresh}); // Refresh 버튼 눌렀을때만 true
+        console.log("아이템 로딩");
+      } catch (error) {
+        this.error = error.message || 'Something went wrong!!'
+      }
+      this.isLoading = false;
+    },
+  }
 }
 </script>
 
@@ -27,8 +55,10 @@ export default {
     <div class="album py-5 bg-body-tertiary">
       <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          <div class="col" v-for="i in 12" :key="i">
-            <BaseCard></BaseCard>
+          <div class="col" v-for="item in filteredItems" :key="item.id">
+            <base-card>
+              <the-item :item="item"></the-item>
+            </base-card>
           </div>
         </div>
       </div>

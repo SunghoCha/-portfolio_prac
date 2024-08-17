@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import study.gallery_backend.domain.Item;
 
 @Repository
-public interface itemRepository extends JpaRepository<Item, Long> {
+public interface ItemRepository extends JpaRepository<Item, Long> {
 }

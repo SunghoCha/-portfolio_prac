@@ -2,7 +2,7 @@
   <SvgIcon></SvgIcon>
   <TheNavigation></TheNavigation>
   <TheHeader></TheHeader>
-  <TheHome></TheHome>
+  <router-view/>
   <TheFooter></TheFooter>
 </template>
 
@@ -11,12 +11,11 @@
 
 import TheHeader from "@/components/layout/TheHeader.vue";
 import TheFooter from "@/components/layout/TheFooter.vue";
-import TheHome from "@/pages/TheHome.vue";
 import SvgIcon from "@/components/layout/SvgIcon.vue";
 import TheNavigation from "@/components/layout/TheNavigation.vue";
 
 export default {
-  components: {TheNavigation, SvgIcon, TheHome, TheFooter, TheHeader}
+  components: {TheNavigation, SvgIcon, TheFooter, TheHeader}
 
 }
 </script>
