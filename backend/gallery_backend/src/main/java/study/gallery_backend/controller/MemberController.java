@@ -17,7 +17,7 @@ public class MemberController {
     @PostMapping("/api/account/login")
     public ResponseEntity<Long> login(LoginRequest request) {
         Member member = memberService.findByEmailAndPassword(request);
-        
+
         return ResponseEntity.ok().body(member.getId());
     }
 }

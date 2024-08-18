@@ -5,11 +5,11 @@
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
       <div class="form-floating">
-        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" v-model.trim="email.val" >
         <label for="floatingInput">Email address</label>
       </div>
       <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" v-model.trim="password.val">
         <label for="floatingPassword">Password</label>
       </div>
 
@@ -27,7 +27,21 @@
 
 <script>
 export default {
-  name: "TheLogin"
+  name: "TheLogin",
+  data() {
+    return {
+      email: {
+        val:'',
+        isValid: true
+      },
+      password: {
+        val:'',
+        isValid: true
+      },
+
+      formIsValid: true
+    };
+  },
 
 }
 </script>
