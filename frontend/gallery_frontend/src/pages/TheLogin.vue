@@ -1,7 +1,7 @@
 
 <template>
   <div class="form-signin w-100 m-auto">
-    <form>
+    <form @submit.prevent="submitForm">
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
       <div class="form-floating">
@@ -42,6 +42,33 @@ export default {
       formIsValid: true
     };
   },
+  methods: {
+    validateForm() {
+      this.formIsValid = true;
+      if (this.email.val === '') {
+        this.email.isValid = false;
+        this.formIsValid = false;
+      }
+      if (this.password.val === '') {
+        this.password.isValid = false;
+        this.formIsValid = false;
+      }
+    },
+    submitForm() {
+      this.validateForm();
+
+      if (!this.formIsValid) {
+        return;
+      }
+
+      const formData = {
+        email: this.email.val,
+        password: this.password.val,
+      };
+      console.log(formData);
+      // 로그인 부분 구현
+    }
+  }
 
 }
 </script>
