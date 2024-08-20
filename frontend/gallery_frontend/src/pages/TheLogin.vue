@@ -1,16 +1,21 @@
 
 <template>
+  <div v-show="!!error">
+    <p>{{ error }}</p>
+  </div>
   <div class="form-signin w-100 m-auto">
     <form @submit.prevent="submitForm">
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-      <div class="form-floating">
-        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" v-model.trim="email.val" >
+      <div class="form-floating" :class="{invalid: !email.isValid}">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" v-model.trim="email.val" @blur="clearValidity('email')">
         <label for="floatingInput">Email address</label>
+        <p v-if="!email.isValid">유효한 이메일을 입력해주세요.</p>
       </div>
-      <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" v-model.trim="password.val">
+      <div class="form-floating" :class="{invalid: !password.isValid}">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" v-model.trim="password.val" @blur="clearValidity('password')">
         <label for="floatingPassword">Password</label>
+        <p v-if="!password.isValid">유효한 비밀번호를 입력해주세요.</p>
       </div>
 
       <div class="form-check text-start my-3">
@@ -38,11 +43,14 @@ export default {
         val:'',
         isValid: true
       },
-
-      formIsValid: true
+      formIsValid: true,
+      error: null,
     };
   },
   methods: {
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
     validateForm() {
       this.formIsValid = true;
       if (this.email.val === '') {
@@ -54,7 +62,7 @@ export default {
         this.formIsValid = false;
       }
     },
-    submitForm() {
+    async submitForm() {
       this.validateForm();
 
       if (!this.formIsValid) {
@@ -67,6 +75,11 @@ export default {
       };
       console.log(formData);
       // 로그인 부분 구현
+      try {
+        await this.$store.dispatch('auth/login', formData)
+      } catch (err) {
+        this.error = err.message || "인증에 실패하였습니다."
+      }
     }
   }
 
@@ -95,5 +108,14 @@ export default {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.invalid label {
+  color: red;
+}
+
+.invalid input,
+.invalid textarea {
+  border: 1px solid red;
 }
 </style>
